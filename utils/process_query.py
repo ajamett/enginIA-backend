@@ -1,23 +1,22 @@
-from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, ServiceContext
-from llama_index.llms import OpenAI
+from llama_index import GPTVectorStoreIndex, SimpleDirectoryReader, LLMPredictor, ServiceContext
+from langchain.chat_models import ChatOpenAI
 import os
 
-# Obtener la clave desde variables de entorno
+# Obtener API key
 openai_api_key = os.getenv("OPENAI_API_KEY")
 os.environ["OPENAI_API_KEY"] = openai_api_key
 
-# Cargar documentos desde la carpeta "pdfs"
+# Cargar los documentos PDF
 pdf_docs = SimpleDirectoryReader("pdfs").load_data()
 
-# Configurar modelo OpenAI
-modelo = OpenAI(model="gpt-4o", temperature=0)
-service_context = ServiceContext.from_defaults(llm=modelo)
+# Instanciar el modelo
+modelo = LLMPredictor(llm=ChatOpenAI(model_name="gpt-4", temperature=0))
 
-# Crear índice y motor de consulta
-index = VectorStoreIndex.from_documents(pdf_docs, service_context=service_context)
+# Crear índice
+service_context = ServiceContext.from_defaults(llm_predictor=modelo)
+index = GPTVectorStoreIndex.from_documents(pdf_docs, service_context=service_context)
 query_engine = index.as_query_engine(response_mode="compact")
 
-# Función para manejar preguntas
 def procesar_pregunta(pregunta):
     respuesta = query_engine.query(pregunta)
     return {
