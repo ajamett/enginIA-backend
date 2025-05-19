@@ -1,6 +1,7 @@
 flask
 openai
 langchain
+langchain-community
 llama-index==0.9.48
 pypdf
 setuptools
