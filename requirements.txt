@@ -1,5 +1,5 @@
 flask
 openai
 langchain
-llama-index
+llama-index>=0.10.0
 pypdf
