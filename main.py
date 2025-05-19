@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 
 @app.route("/api/consultar", methods=["POST"])
-def consultar()::
+def consultar():
     data = request.get_json()
     pregunta = data.get("pregunta")
     if not pregunta:
