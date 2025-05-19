@@ -4,8 +4,12 @@ import os
 
 # Obtener API key
 openai_api_key = os.getenv("OPENAI_API_KEY")
-os.environ["OPENAI_API_KEY"] = openai_api_key
 
+if not openai_api_key:
+    raise ValueError("OPENAI_API_KEY no está definida en las variables de entorno.")
+
+# Ya no se necesita esta línea:
+# os.environ["OPENAI_API_KEY"] = openai_api_key
 # Cargar los documentos PDF
 pdf_docs = SimpleDirectoryReader("pdfs").load_data()
 
