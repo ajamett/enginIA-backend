@@ -3,7 +3,9 @@ from langchain.chat_models import ChatOpenAI
 import os
 
 # Tu clave API de OpenAI va aquí:
-os.environ["OPENAI_API_KEY"] = "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"
+import os
+openai_api_key = os.getenv("OPENAI_API_KEY")
+os.environ["OPENAI_API_KEY"] = openai_api_key
 
 pdf_docs = SimpleDirectoryReader("pdfs").load_data()
 modelo = LLMPredictor(llm=ChatOpenAI(model_name="gpt-4o", temperature=0))
